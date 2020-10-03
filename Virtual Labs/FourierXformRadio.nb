@@ -1,0 +1,657 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     26797,        648]
+NotebookOptionsPosition[     26047,        622]
+NotebookOutlinePosition[     26606,        643]
+CellTagsIndexPosition[     26563,        640]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[TextData[{
+ "Let' s explore Fourier tranforms in the time and frequency domain.\n\n\
+According to Fourier, a waveform that repeats itself with a period T\nmay be \
+written as a superposition of sinusoidal components that have\nangular \
+frequencies that satisfy:  ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox["\[Omega]", "N"], " ", "=", " ", 
+    RowBox[{"N", "     ", "2", 
+     RowBox[{"\[Pi]", "/", 
+      RowBox[{"T", "."}]}]}]}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ "\n\nThe step-size (in frequency) between adjacent contributions is \[Delta]\
+\[Omega] = 2\[Pi]/T.\n\nWhat if the waveform is not periodic??   T \[Rule] \
+\[Infinity],   \[Delta]\[Omega] \[Rule] 0  and the \ncontributing sinusoids \
+are drawn from the continuum (in frequency).\n\nGiven some function in time, \
+f(t),\n\n f(t) = ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{"1", "/", 
+     SqrtBox[
+      RowBox[{"2", " ", "\[Pi]"}]]}], " ", 
+    RowBox[{
+     SubsuperscriptBox["\[Integral]", 
+      RowBox[{"-", "\[Infinity]"}], 
+      RowBox[{"+", "\[Infinity]"}]], "  ", 
+     RowBox[{
+      RowBox[{"c", "(", "\[Omega]", ")"}], " ", 
+      RowBox[{"\[DifferentialD]", "\[Omega]"}], "   ", 
+      SuperscriptBox["\[ExponentialE]", 
+       RowBox[{" ", 
+        RowBox[{"\[ImaginaryI]", " ", "\[Omega]", " ", "t"}]}]]}]}]}], 
+   TraditionalForm]]],
+ "        (where c(\[Omega]) \[DifferentialD]\[Omega] represents the strength \
+of the contribution at \[Omega])\n\nYou should probably recognize that as the \
+inverse Fourier transform on c(\[Omega]). \n\nc(\[Omega]) = 1/",
+ Cell[BoxData[
+  RowBox[{
+   SqrtBox[
+    RowBox[{"2", " ", "\[Pi]"}]], " ", 
+   RowBox[{
+    SubsuperscriptBox["\[Integral]", 
+     RowBox[{"-", "\[Infinity]"}], 
+     RowBox[{"+", "\[Infinity]"}]], "  ", 
+    RowBox[{"f", 
+     RowBox[{"(", "t", ")"}], 
+     RowBox[{"\[DifferentialD]", "t"}], "  ", 
+     SuperscriptBox["\[ExponentialE]", 
+      RowBox[{" ", 
+       RowBox[{
+        RowBox[{"-", "\[ImaginaryI]"}], " ", "\[Omega]", " ", "t"}]}]]}]}]}]]],
+ "\n\nrepresents the Fourier transform on f(t).\n\nThe long-and-short of it \
+is, the temporal behavior of the wave (f(t)) determines the \nspectral \
+decomposition of the wave (c(\[Omega])) and vis-versa.\n  "
+}], "Input",
+ CellChangeTimes->{{3.752365462082068*^9, 3.752366120548999*^9}, {
+   3.752366244152474*^9, 3.7523663684124813`*^9}, 3.752366672933558*^9},
+ FormatType->"TextForm"],
+
+Cell[TextData[{
+ "In practical terms, I generally prefer to roll my own code, where I can.  \n\
+\n   c[\[Omega]_] := ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"1", "/", 
+    SqrtBox[
+     RowBox[{"2", " ", "\[Pi]"}]], "  "}], TraditionalForm]]],
+ "Integrate[F[t] ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SuperscriptBox["E", 
+     RowBox[{" ", 
+      RowBox[{
+       RowBox[{"-", "I"}], " ", "\[Omega]", " ", "t"}]}]], " "}], 
+   TraditionalForm]]],
+ ", {t,-Infinity,Infinity}]\n   \nNot surprisingly, if you do this, you'll \
+run into all the usual problems \none gets with integrals....  Worse, you'll \
+sometimes run into situations \nwhere Mathematica can't/won't give you an \
+answer for something you \n*know*  works, due to convergence issues or the \
+like (this is not a trivial \nintegration).\n\nIf you're willing to let go of \
+a little pride, there's an obvious workaround.\n\nf[t_] = \
+InverseFourierTransform[ c[\[Omega]],  \[Omega], t ]\n\nc[\[Omega]_] = \
+FourierTransform[ f[t], t, \[Omega] ]\n\nThe blackbox functions are optimized \
+for precisely what it is you're trying\nto do.  Knowing the appropriate \
+context, they're more likely to give you\nthe answer you're expecting.\n"
+}], "Input",
+ CellChangeTimes->{{3.609691474729834*^9, 3.609691675875202*^9}, {
+   3.609691759549612*^9, 3.609691897007769*^9}, {3.609692215287377*^9, 
+   3.60969225434803*^9}, {3.609692292005794*^9, 3.609692426948784*^9}, 
+   3.609692465148725*^9, {3.6097594386056814`*^9, 3.6097594669353304`*^9}, {
+   3.752366395771003*^9, 3.752366659314571*^9}, {3.752368972807426*^9, 
+   3.752368972896757*^9}},
+ FormatType->"TextForm"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"For", " ", "our", " ", "first", " ", "example"}], ",", 
+    RowBox[{
+     RowBox[{"let", "'"}], "s", " ", "get", " ", "the", " ", "spectral"}]}], 
+   " ", "*)"}], " ", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{
+    "representation", " ", "of", " ", "a", " ", "monotonic", " ", "wave"}], 
+    "..."}], " ", "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"Remove", "[", "\"\<Global`*\>\"", "]"}], "//", "Quiet"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"$Assumptions", "=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"Element", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"A", ",", "\[CapitalOmega]", ",", "\[Omega]", ",", "t"}], 
+          "}"}], ",", "Reals"}], "]"}], " ", "&&", " ", 
+       RowBox[{"A", ">", "0"}], " ", "&&", " ", 
+       RowBox[{"\[CapitalOmega]", ">", "0"}], " ", "&&", " ", 
+       RowBox[{"\[Omega]", ">", "0"}]}], "}"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"F", "[", "t_", "]"}], " ", "=", " ", 
+     RowBox[{"A", " ", 
+      RowBox[{"Sin", "[", 
+       RowBox[{"\[CapitalOmega]", " ", "t"}], "]"}]}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"c", "[", "\[Omega]_", "]"}], " ", "=", " ", 
+     RowBox[{
+      RowBox[{"FourierTransform", "[", 
+       RowBox[{
+        RowBox[{"F", "[", "t", "]"}], ",", "t", ",", "\[Omega]"}], "]"}], "//",
+       "Simplify"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+   "Print", "[", 
+    "\"\<\\nThe spectral decomposition of a monotonic wave of frequency \
+\[CapitalOmega] is:\>\"", "]"}], "\[IndentingNewLine]", 
+   RowBox[{"Print", "[", 
+    RowBox[{"\"\<c[\[Omega]] = \>\"", ",", 
+     RowBox[{"c", "[", "\[Omega]", "]"}]}], "]"}], 
+   "\[IndentingNewLine]"}]}]], "Input",
+ CellChangeTimes->{{3.609692515887857*^9, 3.609693022832966*^9}, {
+  3.6097594830345583`*^9, 3.6097594840953608`*^9}, {3.752366706093257*^9, 
+  3.752366731212359*^9}, {3.752366764818013*^9, 3.7523668044351673`*^9}, {
+  3.75236691366571*^9, 3.752366919050274*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"Next", ",", " ", 
+    RowBox[{
+     RowBox[{"let", "'"}], "s", " ", "find", " ", "the", " ", "spectral", " ",
+      "decomposition", " ", "of", " ", "a", " ", "wave", " ", "that"}]}], " ",
+    "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"exhibits", " ", "'"}], 
+    RowBox[{"beats", "'"}], " ", "in", " ", "the", " ", "space", " ", 
+    "domain"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"  ", 
+      RowBox[{"\[Psi]", " ", "=", " ", 
+       RowBox[{"A", 
+        FormBox[
+         RowBox[{" ", 
+          RowBox[{"Sin", "[", 
+           SubscriptBox["\[CapitalOmega]", "mod"], " "}]}],
+         TraditionalForm], "t"}]}], "]"}], "  ", 
+     FormBox[
+      RowBox[{"Sin", "[", 
+       SubscriptBox["\[CapitalOmega]", "carrier"]}],
+      TraditionalForm], "t"}], "]"}], "  ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", "      ", 
+   RowBox[{"where", "  ", 
+    SubscriptBox["\[CapitalOmega]", "mod"], " ", 
+    RowBox[{"<<", " ", 
+     SubscriptBox["\[CapitalOmega]", "carrier"]}]}], "        ", "*)"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"Remove", "[", "\"\<Global`*\>\"", "]"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"$Assumptions", "=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"Element", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"A", ",", 
+           SubscriptBox["\[CapitalOmega]", "carrier"], ",", 
+           SubscriptBox["\[CapitalOmega]", "mod"], ",", "\[Omega]", ",", 
+           "t"}], "}"}], ",", "Reals"}], "]"}], " ", "&&", " ", 
+       RowBox[{"A", ">", "0"}], " ", "&&", " ", 
+       RowBox[{
+        SubscriptBox["\[CapitalOmega]", "carrier"], ">", "0"}], " ", "&&", 
+       " ", 
+       RowBox[{
+        SubscriptBox["\[CapitalOmega]", "mod"], " ", ">", " ", "0"}], " ", "&&",
+        " ", 
+       RowBox[{"\[Omega]", ">", "0"}], " ", "&&", " ", 
+       RowBox[{
+        SubscriptBox["\[CapitalOmega]", "carrier"], " ", ">", " ", 
+        SubscriptBox["\[CapitalOmega]", "mod"]}]}], "}"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"F", "[", "t_", "]"}], " ", "=", "  ", 
+     RowBox[{"A", " ", 
+      RowBox[{"Sin", "[", 
+       RowBox[{
+        SubscriptBox["\[CapitalOmega]", "mod"], " ", "t"}], "]"}], "  ", 
+      RowBox[{"Sin", "[", 
+       RowBox[{
+        SubscriptBox["\[CapitalOmega]", "carrier"], " ", "t"}], "]"}]}]}], 
+    ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"c", "[", "\[Omega]_", "]"}], " ", "=", " ", 
+     RowBox[{
+      RowBox[{"FourierTransform", "[", 
+       RowBox[{
+        RowBox[{"F", "[", "t", "]"}], ",", "t", ",", "\[Omega]"}], "]"}], "//",
+       "Simplify"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+   "Print", "[", 
+    "\"\<\\nThe spectral decomposition of the amplitude modulated wave \
+is:\>\"", "]"}], "\[IndentingNewLine]", 
+   RowBox[{"Print", "[", 
+    RowBox[{"\"\<c[\[Omega]] = \>\"", ",", 
+     RowBox[{"c", "[", "\[Omega]", "]"}]}], "]"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+   "Print", "[", 
+    "\"\<\\nThe spectral decomposition shows that this amplitude-modulated \
+wave\>\"", "]"}], "\n", 
+   RowBox[{
+   "Print", "[", 
+    "\"\<can be described as a superposition of monotonic waves of frequency \
+\>\"", "]"}], "\[IndentingNewLine]", 
+   RowBox[{
+   "Print", "[", 
+    "\"\<\!\(\*SubscriptBox[\(\[CapitalOmega]\), \(carrier\)]\) \[PlusMinus] \
+\!\(\*SubscriptBox[\(\[CapitalOmega]\), \(mod\)]\) \>\"", "]"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+   "Print", "[", 
+    "\"\<\\nWe can verify this easily enough in Mathematica.\>\"", "]"}], 
+   "   ", "\n", 
+   RowBox[{
+    RowBox[{"Print", "[", "\"\<Using trig identities...\>\"", "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"Print", "[", 
+    RowBox[{
+    "\"\<A Sin[\!\(\*SubscriptBox[\(\[CapitalOmega]\), \(mod\)]\) t] Sin[\!\(\
+\*SubscriptBox[\(\[CapitalOmega]\), \(carrier\)]\) t] = \>\"", ",", 
+     RowBox[{
+      RowBox[{"F", "[", "t", "]"}], "//", "TrigReduce"}]}], "]"}], 
+   "\[IndentingNewLine]"}]}]], "Input",
+ CellChangeTimes->{{3.609692515887857*^9, 3.609693022832966*^9}, {
+  3.609693174405557*^9, 3.609693265229866*^9}, {3.609693299621891*^9, 
+  3.609693406543024*^9}, {3.609693444769462*^9, 3.609693458777025*^9}, {
+  3.6097595219098263`*^9, 3.6097595230798283`*^9}, {3.6097596861937127`*^9, 
+  3.609759917386116*^9}, {3.60978507317419*^9, 3.6097851013478394`*^9}, {
+  3.6097855633112493`*^9, 3.609785579067277*^9}, {3.752366822463623*^9, 
+  3.752366901282333*^9}, {3.752366933232209*^9, 3.7523670387366657`*^9}, {
+  3.7523670699392233`*^9, 3.752367123248824*^9}, {3.752367322651717*^9, 
+  3.7523673386859627`*^9}, {3.752367428725176*^9, 3.752367478631722*^9}}],
+
+Cell[TextData[{
+ "If you're familiar with the term Amplitude Modulation, it's probably in the \
+context of radio.\nA 'carrier' is generated with an oscillator, and the \
+strength of the carrier is then modulated\nwith information.  It's a cheap, \
+easy signal to produce - in the *earliest* AM transmitters, \na microphone \
+was inserted in series between the \"continuous-wave\" (constant amplitude) \
+oscillator \nand the antenna!  DO NOT try that at home!!!.\n\nAs you have \
+learned (or will learn) in 18L, it's also a cheap, easy signal to demodulate  \
+8*)\nTake an LC-tank, add a diode and a pair of high-impedance headphones, \
+string an antenna, and\n**most important** tie-off to a good ground, and \
+you're off and running.\n\nNow - an AM transmitter, in the classic sense, \
+doesn't produce the 'beats' signal we analyzed above.\n\nClassic AM \
+modulation looks like:\n\nmodulation[t] = A (1 + percent ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"Sin", "[", 
+    SubscriptBox["\[CapitalOmega]", "mod"]}], TraditionalForm]]],
+ " t] )\n\nwhere percent=1.00 would represent a signal with 100% modulation "
+}], "Input",
+ CellChangeTimes->{{3.609693561859204*^9, 3.60969356201582*^9}, {
+   3.609693592393651*^9, 3.609693799003567*^9}, {3.609693877518755*^9, 
+   3.609693916346912*^9}, {3.609693977777778*^9, 3.609694120203258*^9}, {
+   3.609759948071369*^9, 3.609760222274048*^9}, {3.609760260821715*^9, 
+   3.6097604802214975`*^9}, {3.609760512778754*^9, 3.609760513418355*^9}, {
+   3.609760569640853*^9, 3.6097609873169813`*^9}, {3.609761073600732*^9, 
+   3.609761365931642*^9}, {3.6097614188781343`*^9, 3.6097614232149415`*^9}, {
+   3.6097614709198246`*^9, 3.609761478345438*^9}, {3.6097847925413003`*^9, 
+   3.60978506202017*^9}, {3.609785171401965*^9, 3.6097854129113865`*^9}, 
+   3.752339324277591*^9, 3.75236719576998*^9, {3.752367262083275*^9, 
+   3.7523672691030407`*^9}},
+ FormatType->"TextForm"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Remove", "[", "\"\<Global`*\>\"", "]"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"$Assumptions", "=", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"Element", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"A", ",", 
+          SubscriptBox["\[CapitalOmega]", "carrier"], ",", 
+          SubscriptBox["\[CapitalOmega]", "mod"], ",", "\[Omega]", ",", "t"}],
+          "}"}], ",", "Reals"}], "]"}], " ", "&&", " ", 
+      RowBox[{"A", ">", "0"}], " ", "&&", " ", 
+      RowBox[{
+       SubscriptBox["\[CapitalOmega]", "carrier"], ">", "0"}], " ", "&&", " ", 
+      RowBox[{
+       SubscriptBox["\[CapitalOmega]", "mod"], " ", ">", " ", "0"}], " ", "&&",
+       " ", 
+      RowBox[{"\[Omega]", ">", "0"}], " ", "&&", " ", 
+      RowBox[{
+       SubscriptBox["\[CapitalOmega]", "carrier"], " ", ">", " ", 
+       SubscriptBox["\[CapitalOmega]", "mod"]}]}], "}"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"modulation", "[", "t_", "]"}], "=", 
+   RowBox[{"A", " ", 
+    RowBox[{"(", 
+     RowBox[{"1", " ", "+", " ", 
+      RowBox[{"percent", " ", 
+       RowBox[{"Sin", "[", 
+        RowBox[{
+         SubscriptBox["\[CapitalOmega]", "mod"], " ", "t"}], "]"}]}]}], 
+     ")"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"F", "[", "t_", "]"}], " ", "=", "  ", 
+    RowBox[{
+     RowBox[{"modulation", "[", "t", "]"}], " ", 
+     RowBox[{"Sin", "[", 
+      RowBox[{
+       SubscriptBox["\[CapitalOmega]", "carrier"], " ", "t"}], "]"}]}]}], 
+   ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"c", "[", "\[Omega]_", "]"}], " ", "=", " ", 
+    RowBox[{
+     RowBox[{"FourierTransform", "[", 
+      RowBox[{
+       RowBox[{"F", "[", "t", "]"}], ",", "t", ",", "\[Omega]"}], "]"}], "//",
+      "Simplify"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  "\"\<\\nThe spectral decomposition of a 'real' (radio) amplitude modulated \
+wave is:\>\"", "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<c[\[Omega]] = \>\"", ",", 
+    RowBox[{"c", "[", "\[Omega]", "]"}]}], "]"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  "\"\<\\nNotice that there are three spectral components - \>\"", 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  "\"\<the carrier (\!\(\*SubscriptBox[\(\[CapitalOmega]\), \(car\)]\)) and \
+two 'sidebands' (\!\(\*SubscriptBox[\(\[CapitalOmega]\), \(car\)]\) \
+\[PlusMinus] \!\(\*SubscriptBox[\(\[CapitalOmega]\), \(mod\)]\))\>\"", 
+  "]"}], "\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->{{3.609692515887857*^9, 3.609693022832966*^9}, {
+   3.609693174405557*^9, 3.609693265229866*^9}, {3.609693299621891*^9, 
+   3.609693406543024*^9}, {3.609693444769462*^9, 3.609693458777025*^9}, {
+   3.6097595219098263`*^9, 3.6097595230798283`*^9}, {3.6097596861937127`*^9, 
+   3.609759917386116*^9}, {3.60978507317419*^9, 3.6097851013478394`*^9}, {
+   3.609785434548625*^9, 3.609785507665952*^9}, {3.609785609315729*^9, 
+   3.609785704242895*^9}, {3.6097857526497793`*^9, 3.6097857641782*^9}, {
+   3.6097858664987783`*^9, 3.609785932798894*^9}, {3.752367311871717*^9, 
+   3.752367315602466*^9}, 3.752367402920423*^9, 3.7523675564066668`*^9, 
+   3.7523676029121037`*^9, {3.752368396509807*^9, 3.752368413393849*^9}, {
+   3.752368666167164*^9, 3.7523686762926292`*^9}}],
+
+Cell["\<\
+
+When an AM signal is put on the air, the transmitter power is divided between \
+the carrier and the 
+sidebands.  As the carrier doesn't really carry any information, and the \
+sidebands carry redundant
+information, this is is a bit of a waste.   
+
+\"Double Sideband\" transmissions eliminate the carrier component of the \
+radio - the output power that
+was destined for the carrier is now added to the sidebands, increasing \
+efficiency.  
+
+\"Single Sideband (SSB)\" is even better - you eliminate the carrier and one \
+of the sidebands, dumping 
+all the power into the remaining sideband.   Most radios allow you to select \
+\"Upper Sideband (USB)\"
+or \"Lower Sideband (LSB)\".   At the reciever end, a carrier is mixed back \
+into the signal using
+a \"Beat Frequency Oscillator (BFO)\" and then the signal is demodulated like \
+a normal AM signal.
+
+One technique for generating a SSB signal is to first use a balanced-mixer to \
+subtract the carrier
+from the modulated signal.  You then mix the resultant with a copy of the \
+resultant shifted 90 degrees 
+in phase,  We can do that in simulation...\
+\>", "Input",
+ CellChangeTimes->{{3.609693561859204*^9, 3.60969356201582*^9}, {
+   3.609693592393651*^9, 3.609693799003567*^9}, {3.609693877518755*^9, 
+   3.609693916346912*^9}, {3.609693977777778*^9, 3.609694120203258*^9}, {
+   3.609759948071369*^9, 3.609760222274048*^9}, {3.609760260821715*^9, 
+   3.6097604802214975`*^9}, {3.609760512778754*^9, 3.609760513418355*^9}, {
+   3.609760569640853*^9, 3.6097609873169813`*^9}, {3.609761073600732*^9, 
+   3.609761365931642*^9}, {3.6097614188781343`*^9, 3.6097614232149415`*^9}, {
+   3.6097614709198246`*^9, 3.609761478345438*^9}, {3.6097847925413003`*^9, 
+   3.609784799857713*^9}, {3.6097859608789425`*^9, 3.609785962017744*^9}, {
+   3.6097860090518265`*^9, 3.609786113041608*^9}, {3.6097867974470015`*^9, 
+   3.6097868940579696`*^9}, 3.752367631963735*^9, {3.7523676780048103`*^9, 
+   3.752367685338222*^9}, {3.7523677180760727`*^9, 3.75236785013972*^9}, {
+   3.752369086092552*^9, 3.752369089474805*^9}},
+ FormatType->"TextForm"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Remove", "[", "\"\<Global`*\>\"", "]"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"$Assumptions", "=", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"Element", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"A", ",", 
+          SubscriptBox["\[CapitalOmega]", "carrier"], ",", 
+          SubscriptBox["\[CapitalOmega]", "mod"], ",", "\[Omega]", ",", "t"}],
+          "}"}], ",", "Reals"}], "]"}], " ", "&&", " ", 
+      RowBox[{"A", ">", "0"}], " ", "&&", " ", 
+      RowBox[{
+       SubscriptBox["\[CapitalOmega]", "carrier"], ">", "0"}], " ", "&&", " ", 
+      RowBox[{
+       SubscriptBox["\[CapitalOmega]", "mod"], " ", ">", " ", "0"}], " ", "&&",
+       " ", 
+      RowBox[{"\[Omega]", ">", "0"}], " ", "&&", " ", 
+      RowBox[{
+       SubscriptBox["\[CapitalOmega]", "carrier"], " ", ">", " ", 
+       SubscriptBox["\[CapitalOmega]", "mod"]}]}], "}"}]}], ";"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"Set", " ", "up", " ", "the", " ", 
+    RowBox[{"pieces", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "Associate", " ", "the", " ", "amplitude", " ", "coefficient", " ", "with",
+     " ", "the", " ", "carrier", " ", "for", " ", "mixing"}], " ", "*)"}], 
+  " "}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"modulation", "[", 
+    RowBox[{"t_", ",", "\[Delta]\[Theta]_"}], "]"}], "=", 
+   RowBox[{"(", 
+    RowBox[{"1", " ", "+", " ", 
+     RowBox[{"percent", " ", 
+      RowBox[{"Sin", "[", 
+       RowBox[{
+        RowBox[{
+         SubscriptBox["\[CapitalOmega]", "mod"], " ", "t"}], "+", 
+        "\[Delta]\[Theta]"}], "]"}]}]}], ")"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"carrier", "[", 
+    RowBox[{"t_", ",", "\[Delta]\[Theta]_"}], "]"}], " ", "=", " ", 
+   RowBox[{"A", " ", 
+    RowBox[{"Sin", "[", 
+     RowBox[{
+      RowBox[{
+       SubscriptBox["\[CapitalOmega]", "carrier"], " ", "t"}], " ", "+", 
+      "\[Delta]\[Theta]"}], "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"waveform", "[", 
+     RowBox[{"t_", ",", "\[Delta]\[Theta]_"}], "]"}], " ", "=", " ", 
+    RowBox[{
+     RowBox[{"modulation", "[", 
+      RowBox[{"t", ",", "\[Delta]\[Theta]"}], "]"}], " ", 
+     RowBox[{"carrier", "[", 
+      RowBox[{"t", ",", "\[Delta]\[Theta]"}], "]"}]}]}], ";"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"we", "'"}], "ll", " ", "need", " ", "to", " ", "subtract", " ", 
+    "the", " ", "carrier", " ", "from", " ", "the", " ", "modulated", " ", 
+    "waveform"}], " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"signal", "[", 
+     RowBox[{"t_", ",", "\[Delta]\[Theta]_"}], "]"}], " ", "=", " ", 
+    RowBox[{
+     RowBox[{"waveform", "[", 
+      RowBox[{"t", ",", "\[Delta]\[Theta]"}], "]"}], " ", "-", " ", 
+     RowBox[{"carrier", "[", 
+      RowBox[{"t", ",", "\[Delta]\[Theta]"}], "]"}]}]}], ";"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{
+    "and", " ", "then", " ", "we", " ", "need", " ", "to", " ", "add", " ", 
+     RowBox[{"(", 
+      RowBox[{"or", " ", "subtract"}], ")"}], " ", "the", " ", "signal", " ", 
+     "to", " ", "its", " ", "copy"}], ",", " ", 
+    RowBox[{"shifted", " ", "by", " ", "90", " ", "degrees"}]}], " ", 
+   "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"F", "[", 
+     RowBox[{"sign_", ",", "t_"}], "]"}], " ", "=", " ", 
+    RowBox[{
+     RowBox[{"signal", "[", 
+      RowBox[{"t", ",", "0"}], "]"}], " ", "+", " ", 
+     RowBox[{"sign", " ", 
+      RowBox[{"signal", "[", 
+       RowBox[{"t", ",", 
+        RowBox[{"\[Pi]", "/", "2"}]}], "]"}]}]}]}], ";"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"Spectral", " ", "Decomposition"}], " ", 
+   "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"c", "[", 
+     RowBox[{"sign_", ",", "\[Omega]_"}], "]"}], " ", "=", " ", 
+    RowBox[{
+     RowBox[{"FourierTransform", "[", 
+      RowBox[{
+       RowBox[{"F", "[", 
+        RowBox[{"sign", ",", "t"}], "]"}], ",", "t", ",", "\[Omega]"}], "]"}],
+      "//", "Simplify"}]}], ";"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  "\"\<\\nIf you add the shifted waveform to the reference, the LSB is \
+generated\>\"", "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<c[\[Omega]] = \>\"", ",", 
+    RowBox[{"c", "[", 
+     RowBox[{"1", ",", "\[Omega]"}], "]"}]}], "]"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  "\"\<\\nIf you subtract the shifted waveform from the reference, the USB is \
+generated\>\"", "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<c[\[Omega]] = \>\"", ",", 
+    RowBox[{"c", "[", 
+     RowBox[{
+      RowBox[{"-", "1"}], ",", "\[Omega]"}], "]"}]}], "]"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->{{3.609692515887857*^9, 3.609693022832966*^9}, {
+   3.609693174405557*^9, 3.609693265229866*^9}, {3.609693299621891*^9, 
+   3.609693406543024*^9}, {3.609693444769462*^9, 3.609693458777025*^9}, {
+   3.6097595219098263`*^9, 3.6097595230798283`*^9}, {3.6097596861937127`*^9, 
+   3.609759917386116*^9}, {3.6097616293693013`*^9, 3.6097618663337145`*^9}, 
+   3.609761903134178*^9, {3.6097619658306875`*^9, 3.6097620471536293`*^9}, {
+   3.609762080631288*^9, 3.6097621032357273`*^9}, {3.6097621342329817`*^9, 
+   3.6097621659166365`*^9}, {3.609762198021493*^9, 3.6097623013404727`*^9}, {
+   3.6097623730381975`*^9, 3.6097623734749985`*^9}, {3.6097624085126595`*^9, 
+   3.6097625027836237`*^9}, {3.609786969967702*^9, 3.60978699185454*^9}, {
+   3.609787037032219*^9, 3.6097870487790394`*^9}, {3.752339444036052*^9, 
+   3.75233960066087*^9}, {3.752339715144291*^9, 3.752339715352291*^9}, {
+   3.752340058969305*^9, 3.75234009632111*^9}, {3.752340132507964*^9, 
+   3.752340222430159*^9}, {3.752340320410369*^9, 3.752340347661178*^9}, {
+   3.752340558382484*^9, 3.752340602390717*^9}, {3.752340658209081*^9, 
+   3.752340707437689*^9}, {3.752340747695337*^9, 3.752340758509907*^9}, 
+   3.7523674029338303`*^9, {3.752367891193802*^9, 3.752368215436941*^9}, {
+   3.752368267769896*^9, 3.752368268352903*^9}, {3.7523683535431967`*^9, 
+   3.752368355147977*^9}, {3.752368437900915*^9, 3.7523684766555567`*^9}, {
+   3.752368606994747*^9, 3.7523686146049643`*^9}, {3.752368700616304*^9, 
+   3.7523687236442842`*^9}}]
+},
+WindowSize->{1010, 783},
+WindowMargins->{{109, Automatic}, {Automatic, 86}},
+PrintingCopies->1,
+PrintingPageRange->{Automatic, Automatic},
+PrintingOptions->{"PaperOrientation"->"Portrait",
+"PaperSize"->{Automatic, Automatic},
+"PostScriptOutputFile"->"/home/corbin/print.pdf"},
+ShowSelection->True,
+FrontEndVersion->"8.0 for Linux x86 (64-bit) (October 10, 2011)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[557, 20, 2439, 59, 430, "Input"],
+Cell[2999, 81, 1625, 34, 357, "Input"],
+Cell[4627, 117, 2251, 56, 288, "Input"],
+Cell[6881, 175, 4953, 122, 497, "Input"],
+Cell[11837, 299, 1909, 30, 291, "Input"],
+Cell[13749, 331, 3518, 83, 326, "Input"],
+Cell[17270, 416, 2092, 41, 265, "Input"],
+Cell[19365, 459, 6678, 161, 544, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)

@@ -1,0 +1,561 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     18575,        552]
+NotebookOptionsPosition[     18023,        532]
+NotebookOutlinePosition[     18630,        553]
+CellTagsIndexPosition[     18587,        550]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[TextData[{
+ "A traveling monotonic sinusoidal wave can be written:                       \
+                       \n\n\[Psi] = A ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["\[ExponentialE]", 
+    RowBox[{"\[ImaginaryI]", " ", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"\[Omega]", " ", "t"}], " ", "-", " ", 
+       RowBox[{"k", " ", "x"}]}], ")"}]}]], TraditionalForm]]],
+ "\n\nWhat if we superpose a collection of sinusoidal waves that span some \
+range in wavenumber space?\n\nIf the strength contributed by waves having a \
+wavenumber between k and k+dk can be written:  \n\n ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"(", 
+    RowBox[{"1", "/", 
+     SqrtBox[
+      RowBox[{"2", " ", "\[Pi]"}]]}], ")"}], TraditionalForm]]],
+ " A(k) dk,\n\nthen the result of superposition gives us:\n\n\[Psi] = ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"1", "/", 
+      SqrtBox[
+       RowBox[{"2", " ", "\[Pi]"}]]}], ")"}], 
+    RowBox[{"\[Integral]", 
+     RowBox[{
+      RowBox[{"A", "(", "k", ")"}], " ", "dk"}]}]}], TraditionalForm]]],
+ " ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["\[ExponentialE]", 
+    RowBox[{"\[ImaginaryI]", " ", 
+     RowBox[{"(", 
+      RowBox[{"\[Omega]t", "-", "kx"}], ")"}]}]], TraditionalForm]]],
+ "              which can be written - \n\n\[Psi] =  [ ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"1", "/", 
+      SqrtBox[
+       RowBox[{"2", " ", "\[Pi]"}]]}], ")"}], 
+    RowBox[{"\[Integral]", " ", 
+     RowBox[{
+      RowBox[{"A", "(", "k", ")"}], " ", "dk"}]}]}], TraditionalForm]]],
+ " ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SuperscriptBox["\[ExponentialE]", 
+     RowBox[{"-", "\[ImaginaryI]kx"}]], " "}], TraditionalForm]]],
+ "]   ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["\[ExponentialE]", "\[ImaginaryI]\[Omega]t"], 
+   TraditionalForm]]],
+ "            so...\n\n\[Psi] = c(x) ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["\[ExponentialE]", "\[ImaginaryI]\[Omega]t"], 
+   TraditionalForm]]],
+ "         where     c(x) = ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"1", "/", 
+      SqrtBox[
+       RowBox[{"2", " ", "\[Pi]"}]]}], ")"}], 
+    RowBox[{"\[Integral]", " ", 
+     RowBox[{
+      RowBox[{"A", "(", "k", ")"}], " ", "dk"}]}]}], TraditionalForm]]],
+ " ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["\[ExponentialE]", 
+    RowBox[{"-", "\[ImaginaryI]kx"}]], TraditionalForm]]],
+ "\n\nc(x) is generally complex...  so \[Psi] winds up being some traveling \
+shape.\n\n\n...you may recognize c(x) as the Fourier Transform of A(k)...\n\n\
+A(k) = ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"1", "/", 
+      SqrtBox[
+       RowBox[{"2", " ", "\[Pi]"}]]}], ")"}], 
+    RowBox[{"\[Integral]", " ", 
+     RowBox[{
+      RowBox[{"c", "(", "x", ")"}], " ", "dx"}]}]}], TraditionalForm]]],
+ " ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["\[ExponentialE]", "\[ImaginaryI]kx"], TraditionalForm]]],
+ "\n\nShapes can be transformed into their corresponding distributions in \
+wavenumber space\n(spectral decomposition), just as distributions in \
+wavenumber space can be transformed\ninto shapes (wavepackets).\n\n(***)\n\n\
+If the distribution in wavenumber space is localized around some central \
+value (k0), we \ncan describe the resulting wavepacket in terms of a carrier \
+(",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"  ", 
+    SuperscriptBox["\[ExponentialE]", 
+     RowBox[{"\[ImaginaryI]", " ", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         SubscriptBox["\[Omega]", "0"], "t"}], "-", 
+        RowBox[{
+         SubscriptBox["k", "0"], "x"}]}], ")"}]}]], "  "}], TraditionalForm]]],
+ ") onto which some \nmodulation envelope is imposed...\n\nWrite:      k = k0 \
++ \[Delta]k\n            \[Omega] = \[Omega]0 + \[Omega]0' \[Delta]k          \
+(Taylor expansion:  \[Omega]0' = ",
+ Cell[BoxData[
+  FormBox[
+   FractionBox[
+    RowBox[{"\[PartialD]", "\[Omega]"}], 
+    RowBox[{"\[PartialD]", "k"}]], TraditionalForm]]],
+ " evaluated at k0)\n               \n Then:                \n\n\n\[Psi] =  \
+",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"1", "/", 
+      SqrtBox[
+       RowBox[{"2", " ", "\[Pi]"}]]}], ")"}], 
+    RowBox[{"\[Integral]", " ", 
+     RowBox[{
+      RowBox[{"A", "(", "k", ")"}], " ", "dk"}]}]}], TraditionalForm]]],
+ " ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SuperscriptBox["\[ExponentialE]", 
+     RowBox[{
+      RowBox[{"-", "\[ImaginaryI]"}], " ", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"\[Omega]0", " ", "t"}], " ", "-", " ", 
+        RowBox[{"k0", " ", "x"}]}], ")"}]}]], " "}], TraditionalForm]]],
+ "   ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["\[ExponentialE]", 
+    RowBox[{"\[ImaginaryI]", "  ", "\[Delta]k", " ", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"\[Omega]0", "'"}], " ", "t"}], " ", "-", " ", "x"}], 
+      ")"}]}]], TraditionalForm]]],
+ "\n\n\[Psi] =  [ ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"1", "/", 
+      SqrtBox[
+       RowBox[{"2", " ", "\[Pi]"}]]}], ")"}], 
+    RowBox[{"\[Integral]", " ", 
+     RowBox[{
+      RowBox[{"A", "(", "\[Delta]k", ")"}], " ", 
+      RowBox[{"d", "(", "\[Delta]k"}]}]}]}], TraditionalForm]]],
+ ") ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["\[ExponentialE]", 
+    RowBox[{"\[ImaginaryI]", "  ", "\[Delta]k", " ", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"\[Omega]0", "'"}], " ", "t"}], " ", "-", " ", "x"}], 
+      ")"}]}]], TraditionalForm]]],
+ " ]  ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"*", "  ", 
+    SuperscriptBox["\[ExponentialE]", 
+     RowBox[{
+      RowBox[{"-", "\[ImaginaryI]"}], " ", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"\[Omega]0", " ", "t"}], " ", "-", " ", 
+        RowBox[{"k0", " ", "x"}]}], ")"}]}]]}], TraditionalForm]]],
+ "\n\nClearly, the modulation envelope is described by:\n\n",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"1", "/", 
+      SqrtBox[
+       RowBox[{"2", " ", "\[Pi]"}]]}], ")"}], 
+    RowBox[{"\[Integral]", " ", 
+     RowBox[{
+      RowBox[{"A", "(", "\[Delta]k", ")"}], " ", 
+      RowBox[{"d", "(", "\[Delta]k"}]}]}]}], TraditionalForm]]],
+ ") ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["\[ExponentialE]", 
+    RowBox[{"\[ImaginaryI]", "  ", "\[Delta]k", " ", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"\[Omega]0", "'"}], " ", "t"}], " ", "-", " ", "x"}], 
+      ")"}]}]], TraditionalForm]]],
+ "\n\nIt is, itself, a traveling shape that moves with a \"group velocity\" = \
+\[Omega]0'\n(the carrier moves with a \"phase velocity\" = \[Omega]0/k0)\n\n\n\
+We're going to explore these connections in the lab that follows...\n"
+}], "Input",
+ CellChangeTimes->{{3.673177445738642*^9, 3.673177454161509*^9}, {
+   3.673177501882102*^9, 3.673178141183052*^9}, {3.673178179789243*^9, 
+   3.673178350941046*^9}, {3.673178400386943*^9, 3.673178682470818*^9}, {
+   3.673178716378994*^9, 3.673178748291832*^9}, {3.673178791889728*^9, 
+   3.673178972457758*^9}, {3.673179002921874*^9, 3.673179473460062*^9}, {
+   3.7523696911134157`*^9, 3.752369708678359*^9}, {3.75236976106721*^9, 
+   3.752369781734989*^9}, {3.7523698300610228`*^9, 3.7523698384741707`*^9}, 
+   3.7523698891040487`*^9, {3.752370765546816*^9, 3.752370771690613*^9}},
+ FormatType->"TextForm"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"Remove", "[", "\"\<Global`*\>\"", "]"}], "//", "Quiet"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "Help", " ", "Mathematica", " ", "to", " ", "simplify", " ", "a", " ", 
+    "few", " ", "things"}], " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"SetAttributes", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"k0", ",", "\[Omega]0", ",", "\[Delta]k", ",", "\[Omega]0p"}], 
+     "}"}], ",", "Constant"}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"$Assumptions", "=", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"Element", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+         "k0", ",", "\[Omega]0", ",", "\[Delta]k", ",", "\[Omega]0p", ",", 
+          "t"}], "}"}], ",", "Reals"}], "]"}], " ", "&&", " ", 
+      RowBox[{"k0", ">", "0"}], " ", "&&", " ", 
+      RowBox[{"\[Omega]0", ">", "0"}], " ", "&&", " ", 
+      RowBox[{"\[Delta]k", " ", ">", "0"}]}], "}"}]}], ";"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "Lay", " ", "out", " ", "a", " ", "set", " ", "of", " ", "test", " ", 
+    "cases"}], " ", "*)"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"case", "=", "1"}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"If", "[", 
+   RowBox[{
+    RowBox[{"case", "\[Equal]", 
+     RowBox[{"-", "1"}]}], ",", " ", 
+    RowBox[{
+     RowBox[{"A", "[", "k_", "]"}], "=", 
+     RowBox[{
+      RowBox[{"DiracDelta", "[", 
+       RowBox[{"k", "-", "k0"}], "]"}], " ", "+", " ", 
+      RowBox[{"DiracDelta", "[", 
+       RowBox[{"k", "-", "k0", " ", "+", " ", 
+        RowBox[{"\[Delta]k", "/", "4"}]}], "]"}]}]}]}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"If", "[", 
+   RowBox[{
+    RowBox[{"case", "\[Equal]", "0"}], ",", " ", 
+    RowBox[{
+     RowBox[{"A", "[", "k_", "]"}], "=", 
+     RowBox[{"DiracDelta", "[", 
+      RowBox[{"k", "-", "k0"}], "]"}]}]}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"If", "[", 
+   RowBox[{
+    RowBox[{"case", "\[Equal]", "1"}], ",", 
+    RowBox[{
+     RowBox[{"A", "[", "k_", "]"}], "=", "1"}]}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"If", "[", 
+   RowBox[{
+    RowBox[{"case", "\[Equal]", "2"}], ",", 
+    RowBox[{
+     RowBox[{"A", "[", "k_", "]"}], "=", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"k", "-", "k0", "+", 
+        RowBox[{"\[Delta]k", "/", "2"}]}], ")"}], "/", "\[Delta]k"}]}]}], 
+   "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"If", "[", 
+    RowBox[{
+     RowBox[{"case", "\[Equal]", "3"}], ",", 
+     RowBox[{
+      RowBox[{"A", "[", "k_", "]"}], "=", 
+      RowBox[{
+       SuperscriptBox[
+        RowBox[{"(", 
+         RowBox[{"k", "-", "k0"}], ")"}], "2"], "/", 
+       SuperscriptBox[
+        RowBox[{"(", 
+         RowBox[{"\[Delta]k", "/", "2"}], ")"}], "2"]}]}]}], "]"}], ";"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"We", "'"}], "ll", " ", "assume", " ", "the", " ", 
+     "distribution", " ", "in", " ", "k"}], "-", 
+    RowBox[{"space", " ", "is", " ", "symmetric", " ", "about", " ", "k0"}]}],
+    " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"klo", "=", 
+   RowBox[{"k0", "-", 
+    RowBox[{"\[Delta]k", "/", "2"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"khi", "=", 
+    RowBox[{"k0", "+", 
+     RowBox[{"\[Delta]k", "/", "2"}]}]}], ";"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"Use", " ", "Taylor", " ", "Series", " ", "to", " ", "re"}], "-", 
+    
+    RowBox[{"write", " ", "the", " ", "wave"}]}], " ", 
+   "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"\[Omega]", " ", "=", " ", 
+    RowBox[{"\[Omega]0", " ", "+", " ", 
+     RowBox[{"\[Omega]0p", " ", 
+      RowBox[{"(", 
+       RowBox[{"k", "-", "k0"}], ")"}]}]}]}], ";"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "Generate", " ", "the", " ", "wave", " ", "by", " ", "superposing", " ", 
+    "contributions", " ", "by", " ", "wavenumber"}], " ", 
+   "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"\[CapitalPsi]", "[", 
+     RowBox[{"x_", ",", "t_"}], "]"}], "=", 
+    RowBox[{
+     RowBox[{"Integrate", "[", " ", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"A", "[", "k", "]"}], " ", 
+        SuperscriptBox["E", 
+         RowBox[{"I", " ", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"\[Omega]", " ", "t"}], " ", "-", " ", 
+            RowBox[{"k", " ", "x"}]}], ")"}]}]]}], ",", 
+       RowBox[{"{", 
+        RowBox[{"k", ",", "klo", ",", "khi"}], "}"}]}], "]"}], "//", 
+     "Simplify"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<\\n\\n\[CapitalPsi][x,t] = \>\"", ",", 
+    RowBox[{"\[CapitalPsi]", "[", 
+     RowBox[{"x", ",", "t"}], "]"}]}], "]"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"Define", " ", "something", " ", "useful"}], " ", 
+   "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    SuperscriptBox["z_", "*"], " ", ":=", 
+    RowBox[{"Conjugate", "[", "z", "]"}]}], ";"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "Get", " ", "the", " ", "real", " ", "part", " ", "of", " ", 
+    "\[CapitalPsi]"}], " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"\[CapitalTheta]", "[", 
+     RowBox[{"x_", ",", "t_"}], "]"}], "=", 
+    RowBox[{
+     RowBox[{"1", "/", "2"}], " ", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"\[CapitalPsi]", "[", 
+        RowBox[{"x", ",", "t"}], "]"}], " ", "+", " ", 
+       SuperscriptBox[
+        RowBox[{"\[CapitalPsi]", "[", 
+         RowBox[{"x", ",", "t"}], "]"}], "*"]}], ")"}]}]}], ";"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"Play", "..."}], "  ", "8"}], "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", "Parameters", " ", "*)"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"k0", " ", "=", " ", 
+   RowBox[{"2", " ", "\[Pi]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"\[Delta]k", " ", "=", "  ", 
+   RowBox[{"0.1", " ", "\[Pi]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"\[Omega]0", " ", "=", " ", 
+   RowBox[{"0.2", " ", "\[Pi]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"\[Omega]0p", " ", "=", " ", 
+    RowBox[{"0.3", " ", "\[Pi]"}]}], ";"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"Visualize", " ", "it", " ", "all"}], " ", "*)"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", "\"\<The Amplitude distribution:\>\"", 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"amplot", ":=", 
+   RowBox[{"Plot", "[", 
+    RowBox[{
+     RowBox[{"A", "[", "k", "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"k", ",", "klo", ",", "khi"}], "}"}], ",", 
+     RowBox[{"PlotRange", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"-", "1.5"}], " ", "klo"}], ",", 
+        RowBox[{"1.5", " ", "khi"}]}], "}"}]}], ",", 
+     RowBox[{"AxesLabel", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"\"\<k\>\"", ",", "\"\<A[k]\>\""}], "}"}]}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"If", "[", 
+   RowBox[{
+    RowBox[{"case", ">", "0"}], ",", "amplot"}], "]"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"xx", " ", "=", " ", "75"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"If", "[", 
+   RowBox[{
+    RowBox[{"case", ">", "0"}], ",", 
+    RowBox[{"yy", "=", "0.4"}], ",", 
+    RowBox[{"yy", "=", "2.4"}]}], "]"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"range", "=", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"-", "xx"}], ",", "xx"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"-", "yy"}], ",", "yy"}], "}"}]}], "}"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Animate", "[", 
+   RowBox[{
+    RowBox[{"Plot", "[", 
+     RowBox[{
+      RowBox[{"\[CapitalTheta]", "[", 
+       RowBox[{"x", ",", "t"}], "]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"x", ",", 
+        RowBox[{"-", "xx"}], ",", "xx"}], "}"}], ",", 
+      RowBox[{"PlotRange", "\[Rule]", "range"}]}], "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"t", ",", 
+      RowBox[{"-", "100"}], ",", "100"}], "}"}]}], "]"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+  "Print", "[", 
+   "\"\<\\n\\nCan you rationalize the shape of the wave-packet from the \
+distribution A(k)?\>\"", "]"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->{{3.657396270284595*^9, 3.65739662203004*^9}, {
+   3.657396742415354*^9, 3.657396898067945*^9}, {3.657397017020818*^9, 
+   3.657397056653484*^9}, {3.657397123348867*^9, 3.657397124392302*^9}, 
+   3.657397169340125*^9, {3.657397231906631*^9, 3.657397258080945*^9}, {
+   3.657397292636729*^9, 3.657397378320571*^9}, {3.657397412513413*^9, 
+   3.657397850931063*^9}, {3.657397959463021*^9, 3.657397959844499*^9}, {
+   3.657397996667363*^9, 3.657398044817544*^9}, 3.657398179878099*^9, {
+   3.657398214930287*^9, 3.657398220133381*^9}, {3.657398258205314*^9, 
+   3.657398306893468*^9}, {3.657398340433161*^9, 3.657398340930054*^9}, {
+   3.657464988174759*^9, 3.657465088506124*^9}, {3.68761686803471*^9, 
+   3.687616870684143*^9}, 3.7523699569006653`*^9, {3.75237002842318*^9, 
+   3.752370134504717*^9}, 3.752370173849065*^9, {3.7523702083623943`*^9, 
+   3.752370228303862*^9}, {3.7523702627393103`*^9, 3.752370382674842*^9}, {
+   3.752370478510797*^9, 3.7523704945593987`*^9}}]
+},
+WindowSize->{1048, 903},
+WindowMargins->{{53, Automatic}, {6, Automatic}},
+PrintingCopies->1,
+PrintingPageRange->{Automatic, Automatic},
+PrintingOptions->{"PaperOrientation"->"Portrait",
+"PaperSize"->{Automatic, Automatic},
+"PostScriptOutputFile"->"/home/corbin/print.pdf"},
+FrontEndVersion->"8.0 for Linux x86 (64-bit) (October 10, 2011)",
+StyleDefinitions->FrontEnd`FileName[{"Creative"}, "NaturalColor.nb", 
+  CharacterEncoding -> "UTF-8"]
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[557, 20, 7370, 223, 1060, "Input"],
+Cell[7930, 245, 10089, 285, 1172, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)
